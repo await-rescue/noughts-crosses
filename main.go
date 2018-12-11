@@ -1,17 +1,19 @@
 package main
 
 import (
-    "log"
-    "net/http"
+	"log"
+	"net/http"
 
-    "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
+var games = make(map[int]Game)
+
 func main() {
-    router := mux.NewRouter()
+	router := mux.NewRouter()
 
-    router.HandleFunc("/", Ping)
-    router.HandleFunc("/xo/create/", CreateGame)
+	router.HandleFunc("/xo/create/", CreateGame)
+	router.HandleFunc("/xo/make-move/", PlayerMove)
 
-    log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }

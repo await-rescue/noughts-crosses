@@ -5,16 +5,25 @@ import (
 	"net/http"
 )
 
-// StringResponse returns a basic string response
-type StringResponse struct {
-	Result string
+// Move serialises json data
+type Move struct {
+	GameID   int `json:"gameID"`
+	PlayerID int `json:"playerID"`
+	X        int `json:"x"`
+	Y        int `json:"y"`
 }
 
-// Ping tests the API is up
-func Ping(rw http.ResponseWriter, r *http.Request) {
-	ping := StringResponse{"Pong"}
+// Error for returning request errors
+type Error struct {
+	Error string `json:"error"`
+}
 
-	data, err := json.Marshal(ping)
+// CreateGame creates a struct Game http GET :8080/xo/create/
+func CreateGame(rw http.ResponseWriter, r *http.Request) {
+	game := NewGame()
+	games[game.ID] = game
+
+	data, err := json.Marshal(game)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -25,10 +34,16 @@ func Ping(rw http.ResponseWriter, r *http.Request) {
 	rw.Write(data)
 }
 
-// CreateGame creates a struct Game http GET :8080/xo/create/
-func CreateGame(rw http.ResponseWriter, r *http.Request) {
-	game := NewGame()
-	// TODO can we store the games in a global map (or sqlite)?
+// PlayerMove adds either an X or O to the board
+func PlayerMove(rw http.ResponseWriter, r *http.Request) {
+	move := Move{}
+
+	err := json.NewDecoder(r.Body).Decode(&move)
+	if err != nil {
+		panic(err)
+	}
+	game := games[move.GameID]
+	game.makeMove(move.PlayerID, move.X, move.Y)
 
 	data, err := json.Marshal(game)
 	if err != nil {

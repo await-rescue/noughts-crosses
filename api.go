@@ -15,8 +15,13 @@ type Move struct {
 
 // CreateGame creates a struct Game http GET :8080/xo/create/
 func CreateGame(rw http.ResponseWriter, r *http.Request) {
-	game := NewGame()
+	player1 := NewPlayer("X")
+	player2 := NewPlayer("O")
+	game := NewGame(&player1, &player2)
+
 	games[game.ID] = &game
+	players[player1.ID] = &player1
+	players[player2.ID] = &player2
 
 	data, err := json.Marshal(game)
 	if err != nil {
@@ -27,8 +32,6 @@ func CreateGame(rw http.ResponseWriter, r *http.Request) {
 	rw.WriteHeader(200)
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(data)
-
-	return
 }
 
 // PlayerMove adds either an X or O to the board
@@ -40,7 +43,6 @@ func PlayerMove(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 	}
 
-	// TODO check this should be a pointer/already is
 	game := games[move.GameID]
 
 	err = game.makeMove(move.PlayerID, move.X, move.Y)

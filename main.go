@@ -8,8 +8,7 @@ import (
 )
 
 var games = make(map[int]*Game)
-
-// var players = make(map[int]Player)
+var players = make(map[int]*Player)
 
 func main() {
 	router := mux.NewRouter()

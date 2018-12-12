@@ -6,8 +6,7 @@ import (
 
 // Player a player of the game
 type Player struct {
-	ID int
-	// TODO restrict to X or O
+	ID       int
 	MoveType string
 }
 

@@ -7,10 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// NOTE: capitalisation denoted visibility outside current package
-
 // Game is a struct representing a noughts and crosses game
-// TODO might want to just ref a player directly
 type Game struct {
 	ID          int        `json:"id"`
 	PlayerTurn  int        `json:"playerTurn"`

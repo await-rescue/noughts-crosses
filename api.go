@@ -43,7 +43,12 @@ func PlayerMove(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 	}
 
-	game := games[move.GameID]
+	game, ok := games[move.GameID]
+
+	if !ok {
+		http.Error(rw, "Error: game does not exist", http.StatusBadRequest)
+		return
+	}
 
 	err = game.makeMove(move.PlayerID, move.X, move.Y)
 	if err != nil {

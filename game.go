@@ -4,35 +4,54 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 // NOTE: capitalisation denoted visibility outside current package
 
 // Game is a struct representing a noughts and crosses game
 type Game struct {
-	ID         int        `json:"id"`
-	PlayerTurn int        `json:"playerTurn"`
-	Board      [][]string `json:"board"`
-	Player1ID  int        `json:"player1Id"`
-	Player2ID  int        `json:"player2Id"`
+	ID          int        `json:"id"`
+	PlayerTurn  int        `json:"playerTurn"`
+	Board       [][]string `json:"board"`
+	PlayerOneID int        `json:"player1Id"`
+	PlayerTwoID int        `json:"player2Id"`
 }
 
 func (g Game) checkWinCondition() {
 
 }
 
-func (g Game) makeMove(playerID int, x int, y int) {
+func (g *Game) makeMove(playerID int, x int, y int) error {
 	// TODO join the game if free space, otherwise return an error
-	if playerID != g.Player1ID && playerID != g.Player2ID {
-		fmt.Println("blah")
+	// if playerID != g.Player1ID && playerID != g.Player2ID {
+	// 	return errors.New("blah")
+	// }
+
+	// TODO For some reason this doesn't seem to be working
+	if playerID != g.PlayerTurn {
+		return errors.New("It is not your turn")
 	}
 
-	if g.Board[y][x] != "" {
-		// TODO return an error so we can return it through json
-		fmt.Println("Error: space is not empty")
-	} else {
-		g.Board[y][x] = "X"
+	if x > 2 || y > 2 {
+		return errors.New("Error: space does not exist")
 	}
+
+	// TODO try and catch index errors
+	if g.Board[y][x] != "" {
+		return errors.New("Error: space is not empty")
+	}
+
+	g.Board[y][x] = "X"
+
+	if g.PlayerTurn == g.PlayerOneID {
+		g.PlayerTurn = g.PlayerTwoID
+	} else {
+		g.PlayerTurn = g.PlayerOneID
+	}
+
+	return nil
 }
 
 // NewGame creates a new game with a random id

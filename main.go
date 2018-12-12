@@ -7,7 +7,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var games = make(map[int]Game)
+var games = make(map[int]*Game)
+
+// var players = make(map[int]Player)
 
 func main() {
 	router := mux.NewRouter()

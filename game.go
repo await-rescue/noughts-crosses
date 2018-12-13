@@ -40,7 +40,7 @@ func (g *Game) checkWinCondition(player *Player) {
 		return
 	}
 
-	if g.Board[2][2] == player.MoveType && g.Board[1][1] == player.MoveType && g.Board[0][0] == player.MoveType {
+	if g.Board[2][0] == player.MoveType && g.Board[1][1] == player.MoveType && g.Board[0][2] == player.MoveType {
 		g.Status = fmt.Sprintf("%s wins", player.Name)
 		return
 	}

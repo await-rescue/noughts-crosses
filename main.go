@@ -15,6 +15,7 @@ func main() {
 
 	router.HandleFunc("/xo/create/", CreateGame)
 	router.HandleFunc("/xo/make-move/", PlayerMove)
+	router.HandleFunc("/xo/status/", GameStatus)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

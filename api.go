@@ -13,6 +13,11 @@ type Move struct {
 	Y        int `json:"y"`
 }
 
+// Serialises status request
+type Status struct {
+	GameID int `json:"gameID"`
+}
+
 // CreateGame creates a struct Game http GET :8080/xo/create/
 func CreateGame(rw http.ResponseWriter, r *http.Request) {
 	player1 := NewPlayer("Player 1", "X")
@@ -53,6 +58,32 @@ func PlayerMove(rw http.ResponseWriter, r *http.Request) {
 	err = game.makeMove(move.PlayerID, move.X, move.Y)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	data, err := json.Marshal(game)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	rw.WriteHeader(200)
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(data)
+}
+
+// GameStatus returns status of a game
+func GameStatus(rw http.ResponseWriter, r *http.Request) {
+	status := Status{}
+
+	err := json.NewDecoder(r.Body).Decode(&status)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+	}
+
+	game, ok := games[status.GameID]
+	if !ok {
+		http.Error(rw, "Error: game does not exist", http.StatusBadRequest)
 		return
 	}
 

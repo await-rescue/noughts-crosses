@@ -15,8 +15,8 @@ type Move struct {
 
 // CreateGame creates a struct Game http GET :8080/xo/create/
 func CreateGame(rw http.ResponseWriter, r *http.Request) {
-	player1 := NewPlayer("X")
-	player2 := NewPlayer("O")
+	player1 := NewPlayer("Player 1", "X")
+	player2 := NewPlayer("Player 2", "O")
 	game := NewGame(&player1, &player2)
 
 	games[game.ID] = &game

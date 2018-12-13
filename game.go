@@ -60,7 +60,7 @@ func (g *Game) checkWinCondition(player *Player) {
 func (g *Game) makeMove(playerID int, x int, y int) error {
 
 	if g.Status != "active" {
-		return errors.New(fmt.Sprintf("Game is over.\n Status: %s", g.Status))
+		return errors.New(fmt.Sprintf("Game is over.\nStatus: %s", g.Status))
 	}
 
 	if playerID != g.PlayerTurn {

@@ -1,11 +1,24 @@
-BACKEND CODE CHALLENGE
 
-Build a simple service to allow two users to remotely play Noughts & Crosses.
+Simple API for noughts and crosses. This is written to be extensible if we wanted to add persistent players with logins etc. Games are stored concurrently so multiple games can happen at once. Turns are enforced and some basic error checking is done with relevant statuses returned.
 
-Feel free to write it in a language of your choice. Our stack is Go based, so this could be a perfect opportunity to learn some Go if you haven’t already.
 
-A user, either X or O, should be able to make a move, see the current state of the game and find out the winner via an API. The design of this simple API is up to you. No authentication is necessary.
+*To run:*
 
-Ideally write it as you would write production code. Don’t spend too long on this, it doesn’t have to be perfect! No more than a couple of hours. Please include a README describing what you’ve done and why, and how to run and use the service.
+`go get github.com/sinksinksink/noughts-crosses`
+or clone this repo and run `go get` from the folder for dependencies
 
-Send us a link to your git repo when you’re finished!
+`go run .`
+
+*Create a game:*
+`GET localhost:8080/xo/create/`
+Make a note of the player IDs
+
+*Make a move:*
+`POST localhost:8080/xo/make-move/`
+example data: `{"gameID": 24728, "playerID": 128162, "x":1, "y":1}`
+
+The coordinates are counted from the top left being 0,0
+
+*Get the game status:*
+`POST localhost:8080/xo/status/`
+example data: `{"gameID": 24728}`

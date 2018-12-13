@@ -19,11 +19,11 @@ or clone this repo and run `go get` from the folder for dependencies
 **Make a move:**
 
 `POST localhost:8080/xo/make-move/`
-example data: `{"gameID": 24728, "playerID": 128162, "x":1, "y":1}`
+example data to send with request: `{"gameID": 24728, "playerID": 128162, "x":1, "y":1}`
 
 The coordinates are counted from the top left being 0,0
 
 **Get the game status:**
 
 `POST localhost:8080/xo/status/`
-example data: `{"gameID": 24728}`
+example data to send with request: `{"gameID": 24728}`

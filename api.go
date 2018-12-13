@@ -13,7 +13,7 @@ type Move struct {
 	Y        int `json:"y"`
 }
 
-// Serialises status request
+// Status Serialises status request
 type Status struct {
 	GameID int `json:"gameID"`
 }

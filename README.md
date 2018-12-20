@@ -1,7 +1,5 @@
 
-Simple API for noughts and crosses. This is written to be extensible if we wanted to add persistent players with logins etc. Games are stored concurrently so multiple games can happen at once. Turns are enforced and some basic error checking is done with relevant statuses returned.
-
-Most requests return the game state as we would normally need to update this if using a UI.
+Simple API for noughts and crosses.
 
 
 **To run:**
